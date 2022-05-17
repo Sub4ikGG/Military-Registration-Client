@@ -15,6 +15,9 @@ namespace ProjectWorkWF
         public string birth_date;
         public string email;
         public string password;
+        public ArmyTicket ticket;
+        public Passport passport;
+        public Address address;
 
         public User(string fn, string ln, string lnn, string s, string bd, string e, string p)
         {

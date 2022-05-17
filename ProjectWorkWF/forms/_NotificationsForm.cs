@@ -30,15 +30,16 @@ namespace ProjectWorkWF
         private NetworkStream stream;
 
         private User user;
-        private Passport passport;
+        private Notifications notifications;
 
-        public _NotificationsForm(TcpClient c, User u)
+        public _NotificationsForm(TcpClient c, User u, Notifications n)
         {
             InitializeComponent();
 
             client = c;
             user = u;
-            //stream = client.GetStream();
+            notifications = n;
+            stream = client.GetStream();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -48,14 +49,20 @@ namespace ProjectWorkWF
 
         private void Form5_Load(object sender, EventArgs e)
         {
-            clear_button.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, clear_button.Width, clear_button.Height, 10, 10));
-
             /*SendRequest($"/getnotifications- {user.email}");
             var notifications = WaitingResult();*/
 
-            string[] array = new string[] { "Hello world" };
-            notifications_listView.Items.Add(new ListViewItem(array, 0, Color.Wheat, Color.Black, null, null));
-            notifications_listView.Items.Add(new ListViewItem(array, 0, Color.Wheat, Color.Black, null, null));
+            if (notifications.notifications != null)
+            {
+                notifications_label.Text = $"Уведомления ({notifications.notifications.Length})";
+                foreach (var notify in notifications.notifications.Reverse())
+                {
+                    ListViewItem item = new ListViewItem(notify.sender);
+                    item.SubItems.Add(notify.message);
+
+                    notifications_listView.Items.Add(item);
+                }
+            }
         }
 
         private void only_first_class_checkBox_CheckedChanged(object sender, EventArgs e)

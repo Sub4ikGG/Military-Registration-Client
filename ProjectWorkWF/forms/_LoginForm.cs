@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ProjectWorkWF.Properties;
+using ProjectWorkWF.mods;
 
 using Newtonsoft.Json;
 
@@ -20,6 +22,9 @@ namespace ProjectWorkWF
         private TcpClient client;
         private NetworkStream stream;
         private Register_Form register_Form;
+
+        private ServerHandler server_Handler;
+        private FormsHandler forms_Handler = new FormsHandler();
 
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
         private static extern IntPtr CreateRoundRectRgn
@@ -37,6 +42,8 @@ namespace ProjectWorkWF
             {
                 client = new TcpClient("127.0.0.1", 25565);
                 stream = client.GetStream();
+
+                server_Handler = new ServerHandler(stream);
             }
             catch(Exception e)
             {
@@ -45,7 +52,9 @@ namespace ProjectWorkWF
             }
 
             InitializeComponent();
+
             login_label.Visible = false;
+            login_button.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, login_button.Width, login_button.Height, 10, 10));
         }
 
         private void login_textBox_Changed(object sender, EventArgs e)
@@ -75,97 +84,71 @@ namespace ProjectWorkWF
 
         private void login_button_Click(object sender, EventArgs e)
         {
-            if (email_TextBox.Text.Length != 0 && password_TextBox.Text.Length != 0 && !email_TextBox.Text.Equals("someone@example.com") && !password_TextBox.Text.Equals("qwertyuiopasdfghjkl"))
+            if (true || email_TextBox.Text.Length != 0 && password_TextBox.Text.Length != 0 && !email_TextBox.Text.Equals("someone@example.com") && !password_TextBox.Text.Equals("qwertyuiopasdfghjkl"))
             {
-                try
-                {
-                    SendRequest($"/auth- {email_TextBox.Text} {password_TextBox.Text}");
-                    string answer = WaitingResult();
-
-                    if (answer != "101")
-                    {
-                        var user = JsonConvert.DeserializeObject<User>(answer);
-                        ShowSuccessful($"Пользователь авторизован.\n{user.first_name}");
-
-                        Main_Form main_form = new Main_Form(client, user);
-                        main_form.Show();
-                        this.Hide();
-                    }
-                    else ShowError("Ошибка авторизации.");
-                }
-                catch(Exception ex)
-                {
-                    ShowError($"Непредвиденная ошибка.\n{ex.Message}");
-                }
+                Login();
             }
-            else ShowError("Пустые поля логина и пароля");
+            else forms_Handler.ShowError("Пустые поля логина и пароля");
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            this.ActiveControl = null;
+            Thread waiting = new Thread(CheckingFormLoad);
+            waiting.Start();
+        }
 
-            SendRequest($"/auth- zerotanker33@gmail.com lovecarrots33");
-            string answer = WaitingResult();
-
-            if (answer != "101")
+        private void CheckingFormLoad()
+        {
+            if (server_Handler == null) Thread.Sleep(2000);
+            if (server_Handler == null) return;
+            if (Settings.Default["Email"].ToString() != "" && Settings.Default["Password"].ToString() != "")
             {
-                var user = JsonConvert.DeserializeObject<User>(answer);
-                ShowSuccessful($"Добро пожаловать, {user.last_name} {user.first_name}!");
-
-                Main_Form main_form = new Main_Form(client, user);
-                main_form.Show();
-                this.Hide();
+                Action action = () => Login(true);
+                Invoke(action);
             }
-            else ShowError("Ошибка авторизации.");
         }
 
-        private void ShowError(string message)
+        private void Login(bool auto = false)
         {
-            MessageBox.Show(message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
+            try
+            {
+                if (auto) server_Handler.SendRequest($"/auth- {Settings.Default["Email"]} {Settings.Default["Password"]}");
+                else server_Handler.SendRequest($"/auth- {email_TextBox.Text} {password_TextBox.Text}");
+                string answer = server_Handler.WaitingResult();
 
-        private void ShowSuccessful(string message)
-        {
-            MessageBox.Show(message, "Успешно", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (answer != "101")
+                {
+                    var user = JsonConvert.DeserializeObject<User>(answer);
+
+                    server_Handler.SendRequest($"/getarmyticket- {email_TextBox.Text}");
+                    var ans = server_Handler.WaitingResult();
+                    if (ans != "701") user.ticket = JsonConvert.DeserializeObject<ArmyTicket>(ans);
+
+                    forms_Handler.ShowSuccessful($"Пользователь авторизован.\n\nДобро пожаловать, {user.last_name} {user.first_name}!");
+
+                    Main_Form main_form = new Main_Form(client, user);
+                    main_form.Show();
+                    this.Hide();
+
+                    if (remember_checkBox.Checked)
+                    {
+                        Settings.Default["Email"] = user.email;
+                        Settings.Default["Password"] = user.password;
+                        Settings.Default.Save();
+                    }
+                }
+                else forms_Handler.ShowError("Ошибка авторизации.");
+            }
+            catch (Exception ex)
+            {
+                forms_Handler.ShowError($"Непредвиденная ошибка.\n{ex.Message}");
+            }
         }
 
         private void remember_checkBox_CheckedChanged(object sender, EventArgs e)
         {
             if (remember_checkBox.Checked)
-                ShowSuccessful("При следующем входе не потребуется вводить логин и пароль");
-        }
-
-        private void SendRequest(string request)
-        {
-            try
-            {
-                byte[] buffer = Encoding.UTF8.GetBytes(request);
-                stream.Write(buffer, 0, buffer.Length);
-                stream.Flush();
-            }
-            catch(Exception e)
-            {
-                ShowError($"Непредвиденная ошибка.\n{e.Message}");
-            }
-        }
-
-        private string WaitingResult()
-        {
-            try
-            {
-                byte[] bufferResult = new byte[256];
-                int length = stream.Read(bufferResult, 0, bufferResult.Length);
-                string answer = Encoding.UTF8.GetString(bufferResult, 0, length).Trim();
-
-                return answer;
-            }
-            catch (Exception e)
-            {
-                ShowError($"Непредвиденная ошибка.\n{e.Message}");
-
-                return "";
-            }
+                forms_Handler.ShowSuccessful("При следующем входе не потребуется вводить логин и пароль");
         }
 
         private void email_click_textBox(object sender, EventArgs e)

@@ -49,72 +49,88 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="_MainForm.cs">
+    <Compile Include="data\Address.cs" />
+    <Compile Include="data\App.cs" />
+    <Compile Include="data\Applications.cs" />
+    <Compile Include="data\ArmyTicket.cs" />
+    <Compile Include="data\Notification.cs" />
+    <Compile Include="data\Notifications.cs" />
+    <Compile Include="forms\_HelpForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_MainForm.Designer.cs">
+    <Compile Include="forms\_HelpForm.Designer.cs">
+      <DependentUpon>_HelpForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="forms\_MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\_MainForm.Designer.cs">
       <DependentUpon>_MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="_ProfileForm.cs">
+    <Compile Include="forms\_ProfileForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_ProfileForm.Designer.cs">
+    <Compile Include="forms\_ProfileForm.Designer.cs">
       <DependentUpon>_ProfileForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="_NotificationsForm.cs">
+    <Compile Include="forms\_NotificationsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_NotificationsForm.Designer.cs">
+    <Compile Include="forms\_NotificationsForm.Designer.cs">
       <DependentUpon>_NotificationsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="_ApplicationsForm.cs">
+    <Compile Include="forms\_ApplicationsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_ApplicationsForm.Designer.cs">
+    <Compile Include="forms\_ApplicationsForm.Designer.cs">
       <DependentUpon>_ApplicationsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="_PlansForm.cs">
+    <Compile Include="forms\_PlansForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_PlansForm.Designer.cs">
+    <Compile Include="forms\_PlansForm.Designer.cs">
       <DependentUpon>_PlansForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="IUser.cs" />
-    <Compile Include="Passport.cs" />
-    <Compile Include="User.cs" />
-    <Compile Include="_LoginForm.cs">
+    <Compile Include="data\Passport.cs" />
+    <Compile Include="data\User.cs" />
+    <Compile Include="forms\_LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_LoginForm.Designer.cs">
+    <Compile Include="forms\_LoginForm.Designer.cs">
       <DependentUpon>_LoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="_RegisterForm.cs">
+    <Compile Include="forms\_RegisterForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_RegisterForm.Designer.cs">
+    <Compile Include="forms\_RegisterForm.Designer.cs">
       <DependentUpon>_RegisterForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="mods\FormsHandler.cs" />
+    <Compile Include="mods\ServerHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="_LoginForm.resx">
+    <EmbeddedResource Include="forms\_HelpForm.resx">
+      <DependentUpon>_HelpForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\_LoginForm.resx">
       <DependentUpon>_LoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_RegisterForm.resx">
+    <EmbeddedResource Include="forms\_RegisterForm.resx">
       <DependentUpon>_RegisterForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_MainForm.resx">
+    <EmbeddedResource Include="forms\_MainForm.resx">
       <DependentUpon>_MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_ProfileForm.resx">
+    <EmbeddedResource Include="forms\_ProfileForm.resx">
       <DependentUpon>_ProfileForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_NotificationsForm.resx">
+    <EmbeddedResource Include="forms\_NotificationsForm.resx">
       <DependentUpon>_NotificationsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_ApplicationsForm.resx">
+    <EmbeddedResource Include="forms\_ApplicationsForm.resx">
       <DependentUpon>_ApplicationsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_PlansForm.resx">
+    <EmbeddedResource Include="forms\_PlansForm.resx">
       <DependentUpon>_PlansForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -125,6 +141,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
