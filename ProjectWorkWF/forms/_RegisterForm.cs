@@ -47,7 +47,7 @@ namespace ProjectWorkWF
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -73,6 +73,16 @@ namespace ProjectWorkWF
             {
                 if (fn.Length * ln.Length * lnn.Length * email.Length * password.Length * city.Length * street.Length * house_number.Length * flat_number.Length != 0 && (man_checkBox.Checked || woman_checkBox.Checked))
                 {
+                    if (!isEmail(email))
+                    {
+                        forms_Handler.ShowError("Ошибка регистрации.\nПочта не соответствует формату: 'email@mail.ru'");
+                        return;
+                    }
+                    if(!isYoung(date_TimePicker.Value.Year))
+                    {
+                        forms_Handler.ShowError("Ошибка регистрации.\nРегистрация доступна только с 16 лет.");
+                        return;
+                    }
                     if (MessageBox.Show($"ФИО: {ln} {fn} {lnn}\nПол: {sex}\nДата рождения: {date_TimePicker.Text}\n\nГород: {city}\nУлица: {street}\nДом: {house_number}\nКвартира: {flat_number}\n\nПочта: {email}\nПароль: {password}\n\nСогласны?", "Регистрация", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                     {
                         var address = new Address(email, city, street, house_number, Int32.Parse(flat_number));
@@ -97,10 +107,28 @@ namespace ProjectWorkWF
                     forms_Handler.ShowError("Заполните все пустые поля и маркеры");
                 }
             }
+            catch(Exception ex)
+            {
+                forms_Handler.ShowError($"Ошибка регистрации.\nПопробуйте ещё раз.\n{ex.Message}");
+            }
+        }
+
+        private Boolean isEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
             catch
             {
-                forms_Handler.ShowError("Ошибка регистрации.\nПопробуйте ещё раз.");
+                return false;
             }
+        }
+
+        private Boolean isYoung(int year)
+        {
+            return 2022 - year >= 16;
         }
 
         private void Register_Form_Load(object sender, EventArgs e)

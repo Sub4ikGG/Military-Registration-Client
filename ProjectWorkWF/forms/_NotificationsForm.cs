@@ -44,7 +44,12 @@ namespace ProjectWorkWF
 
         private void button1_Click(object sender, EventArgs e)
         {
+            var dictionary = new Dictionary<string, object>();
 
+            foreach(var i in dictionary)
+            {
+
+            }
         }
 
         private void Form5_Load(object sender, EventArgs e)
@@ -110,6 +115,11 @@ namespace ProjectWorkWF
         private void ShowError(string message)
         {
             MessageBox.Show(message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void notifications_listView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

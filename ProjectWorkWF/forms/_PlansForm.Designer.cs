@@ -32,7 +32,7 @@
             this.button_plan_2 = new System.Windows.Forms.Button();
             this.button_plan_3 = new System.Windows.Forms.Button();
             this.button_plan_4 = new System.Windows.Forms.Button();
-            this.birth_label = new System.Windows.Forms.Label();
+            this.plan_label = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -100,15 +100,15 @@
             this.button_plan_4.UseVisualStyleBackColor = false;
             this.button_plan_4.Click += new System.EventHandler(this.button_plan_4_Click);
             // 
-            // birth_label
+            // plan_label
             // 
-            this.birth_label.AutoSize = true;
-            this.birth_label.Font = new System.Drawing.Font("Calibri", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.birth_label.Location = new System.Drawing.Point(12, 9);
-            this.birth_label.Name = "birth_label";
-            this.birth_label.Size = new System.Drawing.Size(407, 27);
-            this.birth_label.TabIndex = 8;
-            this.birth_label.Text = "Траектория: постановка на воинский учет";
+            this.plan_label.AutoSize = true;
+            this.plan_label.Font = new System.Drawing.Font("Calibri", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.plan_label.Location = new System.Drawing.Point(12, 9);
+            this.plan_label.Name = "plan_label";
+            this.plan_label.Size = new System.Drawing.Size(407, 27);
+            this.plan_label.TabIndex = 8;
+            this.plan_label.Text = "Траектория: постановка на воинский учет";
             // 
             // label1
             // 
@@ -129,7 +129,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(982, 603);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.birth_label);
+            this.Controls.Add(this.plan_label);
             this.Controls.Add(this.button_plan_4);
             this.Controls.Add(this.button_plan_3);
             this.Controls.Add(this.button_plan_2);
@@ -148,7 +148,7 @@
         private System.Windows.Forms.Button button_plan_2;
         private System.Windows.Forms.Button button_plan_3;
         private System.Windows.Forms.Button button_plan_4;
-        private System.Windows.Forms.Label birth_label;
+        private System.Windows.Forms.Label plan_label;
         private System.Windows.Forms.Label label1;
     }
 }

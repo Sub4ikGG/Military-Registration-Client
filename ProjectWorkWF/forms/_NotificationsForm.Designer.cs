@@ -51,6 +51,7 @@
             this.notifications_listView.TabIndex = 0;
             this.notifications_listView.UseCompatibleStateImageBehavior = false;
             this.notifications_listView.View = System.Windows.Forms.View.Details;
+            this.notifications_listView.SelectedIndexChanged += new System.EventHandler(this.notifications_listView_SelectedIndexChanged);
             // 
             // sender
             // 

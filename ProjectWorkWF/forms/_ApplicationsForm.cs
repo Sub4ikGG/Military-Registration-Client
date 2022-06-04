@@ -207,17 +207,41 @@ namespace ProjectWorkWF
 
         private void app_button_click2(object sender, EventArgs e)
         {
-            SendApplication("Заявление: снятие с воинского учета", button2);
+            if (user.passport != null && user.ticket != null)
+            {
+                if (user.passport.series != -1 && user.ticket.ticket_id != "-1")
+                    SendApplication("Заявление: снятие с воинского учета", button2);
+                else
+                    ShowError("Ошибка отправления!\nСкорее всего у вас отсутсвуют паспортные данные или ID-карта.");
+            }
+            else
+                ShowError("Ошибка отправления!\nСкорее всего у вас отсутсвуют паспортные данные или ID-карта.");
         }
 
         private void app_button_click3(object sender, EventArgs e)
         {
-            SendApplication("Заявление: контрактная служба", button3);
+            if (user.passport != null && user.ticket != null)
+            {
+                if (user.passport.series != -1 && user.ticket.ticket_id != "-1")
+                    SendApplication("Заявление: контрактная служба", button3);
+                else
+                    ShowError("Ошибка отправления!\nСкорее всего у вас отсутсвуют паспортные данные или ID-карта.");
+            }
+            else
+                ShowError("Ошибка отправления!\nСкорее всего у вас отсутсвуют паспортные данные или ID-карта.");
         }
 
         private void app_button_click4(object sender, EventArgs e)
         {
-            SendApplication("Заявление: отсрочка от службы", button4);
+            if (user.passport != null && user.ticket != null)
+            {
+                if (user.passport.series != -1 && user.ticket.ticket_id != "-1")
+                    SendApplication("Заявление: отсрочка от службы", button4);
+                else
+                    ShowError("Ошибка отправления!\nСкорее всего у вас отсутсвуют паспортные данные или ID-карта.");
+            }
+            else
+                ShowError("Ошибка отправления!\nСкорее всего у вас отсутсвуют паспортные данные или ID-карта.");
         }
     }
 }

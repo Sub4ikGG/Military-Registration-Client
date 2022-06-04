@@ -118,6 +118,11 @@ namespace ProjectWorkWF
                     {
                         if (MessageBox.Show($"Паспорт:\nСерия и номер: {series_and_number_textBox.Text}\nДата выдачи: {passport_date_textBox.Text}\nКод подразделения: {division_code_textBox.Text}\n\nСогласны?", "Внесение правок", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                         {
+                            if (isDateTrue(Int32.Parse(passport_date_textBox.Text.Split('.')[2])))
+                            {
+                                ShowError("Непредвиденная ошибка 123, попробуйте попозже!");
+                                return;
+                            }
                             edit_info_button.Text = "Внести правки";
 
                             user.passport.series = Int32.Parse(series_and_number_textBox.Text.Split()[0]);
@@ -147,10 +152,15 @@ namespace ProjectWorkWF
                     division_code_label.Text = $"Код подразделения: {dc}";
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                ShowError("Возникла ошибка при вводе данных.\n\nФормат серии и номера: 01234-5678\nФормат кода подразделения: ABCD (проверьте вводимые данные)");
+                ShowError($"Возникла ошибка при вводе данных.\n\nФормат серии и номера: 01234 5678\nФормат кода подразделения: ABCD (проверьте вводимые данные)\n{ex.Message}");
             }
+        }
+
+        private Boolean isDateTrue(int year)
+        {
+            return 2022 - year >= 14;
         }
 
         private void SendRequest(string request)

@@ -88,6 +88,11 @@ namespace ProjectWorkWF
             button_plan_2.BackColor = color;
             button_plan_3.BackColor = color;
             button_plan_4.BackColor = color;
+
+            if(color == Color.DarkSeaGreen)
+            {
+                plan_label.Text = "Траектория: постановка на воинский учет выполнена!";
+            }
         }
     }
 }

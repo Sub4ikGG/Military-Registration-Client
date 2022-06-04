@@ -120,7 +120,7 @@ namespace ProjectWorkWF
                 {
                     var user = JsonConvert.DeserializeObject<User>(answer);
 
-                    server_Handler.SendRequest($"/getarmyticket- {email_TextBox.Text}");
+                    server_Handler.SendRequest($"/getarmyticket- {user.email}");
                     var ans = server_Handler.WaitingResult();
                     if (ans != "701") user.ticket = JsonConvert.DeserializeObject<ArmyTicket>(ans);
 
@@ -160,15 +160,6 @@ namespace ProjectWorkWF
             }*/
         }
 
-        private void email_leave_textBox(object sender, EventArgs e)
-        {
-            if (email_TextBox.Text.Trim() == "")
-            {
-                email_TextBox.ForeColor = Color.Gray;
-                email_TextBox.Text = "someone@example.com";
-            }
-        }
-
         private void password_click_textBox(object sender, EventArgs e)
         {
             /*if (password_TextBox.Text == "123456789101112131415")
@@ -193,6 +184,15 @@ namespace ProjectWorkWF
             {
                 email_TextBox.Text = "";
                 email_TextBox.ForeColor = Color.Black;
+            }
+        }
+
+        private void email_leave_textBox(object sender, EventArgs e)
+        {
+            if (email_TextBox.Text.Trim() == "")
+            {
+                email_TextBox.ForeColor = Color.Gray;
+                email_TextBox.Text = "someone@example.com";
             }
         }
 
