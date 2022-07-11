@@ -6,7 +6,7 @@ Client for processing data of military personnel. Course work.
 Клиент для работы с военкоматом. Курсовая работа в университете.
 
 # Reg. and auth.
-![изображение](https://user-images.githubusercontent.com/98654420/178258991-af13804a-f42d-4a2a-a32a-0881963ea134.png)
+![изображение](https://user-images.githubusercontent.com/98654420/178258991-af13804a-f42d-4a2a-a32a-0881963ea134.png)  
 ![изображение](https://user-images.githubusercontent.com/98654420/178259010-7d0c9337-626f-4d44-9dcd-3bbbf76e1c27.png)
 
 # Mail prototype
